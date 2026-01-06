@@ -1,5 +1,6 @@
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import { memo } from "react";
+import { radius } from "@/design/tokens/radius";
+import React, { memo } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
 export type CardAccent = "none" | "primary" | "success" | "warning" | "danger" | "info";
@@ -10,7 +11,7 @@ export type AppCardProps = ViewProps & {
   padding?: number;        // default 16
 };
 
-const ACCENT_FALLBACK: Record<CardAccent, keyof ReturnType<typeof useAppTheme>["colors"] | null> = {
+const ACCENT_COLOR_KEY: Record<CardAccent, "primary" | "success" | "warning" | "danger" | "info" | null> = {
   none: null,
   primary: "primary",
   success: "success",
@@ -29,8 +30,8 @@ function AppCardBase({
 }: AppCardProps) {
   const { colors, mode } = useAppTheme();
 
-  const accentKey = ACCENT_FALLBACK[accent];
-  const accentColor = accentKey ? colors[accentKey] : "transparent";
+  const key = ACCENT_COLOR_KEY[accent];
+  const accentColor = key ? colors[key] : "transparent";
 
   return (
     <View
@@ -40,7 +41,7 @@ function AppCardBase({
         {
           backgroundColor: colors.surface,
           borderColor: colors.border,
-          shadowOpacity: mode === "dark" ? 0.20 : 0.10,
+          shadowOpacity: mode === "dark" ? 0.18 : 0.10,
         },
         style,
       ]}
@@ -56,7 +57,7 @@ function AppCardBase({
 
 const styles = StyleSheet.create({
   wrap: {
-    borderRadius: 16,
+    borderRadius: radius.lg,
     borderWidth: 1,
     overflow: "hidden",
     shadowColor: "#000",

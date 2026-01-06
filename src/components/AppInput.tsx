@@ -1,20 +1,38 @@
 import { AppText } from "@/components/AppText";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import React, { memo } from "react";
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
+import { radius } from "@/design/tokens/radius";
+import React, { memo, useMemo } from "react";
+import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
 
 export type AppInputProps = TextInputProps & {
     label?: string;
     error?: string;
     rightIcon?: React.ReactNode;
+    containerStyle?: ViewStyle;
+    disabled?: boolean;
 };
 
-function AppInputBase({ label, error, style, rightIcon, ...rest }: AppInputProps) {
+function AppInputBase({
+    label,
+    error,
+    style,
+    rightIcon,
+    containerStyle,
+    disabled = false,
+    editable,
+    ...rest
+}: AppInputProps) {
     const { colors } = useAppTheme();
 
+    const isEditable = useMemo(() => {
+        // If caller provides editable explicitly, respect it. Otherwise use disabled flag.
+        if (typeof editable === "boolean") return editable;
+        return !disabled;
+    }, [editable, disabled]);
+
     return (
-        <View style={styles.wrap}>
-            {label ? <AppText variant="muted" style={{ marginBottom: 6 }}>{label}</AppText> : null}
+        <View style={[styles.wrap, containerStyle]}>
+            {label ? <AppText variant="muted" style={styles.label}>{label}</AppText> : null}
 
             <View
                 style={[
@@ -22,23 +40,21 @@ function AppInputBase({ label, error, style, rightIcon, ...rest }: AppInputProps
                     {
                         backgroundColor: colors.surface,
                         borderColor: error ? colors.danger : colors.border,
+                        opacity: isEditable ? 1 : 0.55,
                     },
                 ]}
             >
                 <TextInput
                     {...rest}
+                    editable={isEditable}
                     placeholderTextColor={colors.placeholder}
-                    style={[
-                        styles.input,
-                        { color: colors.text },
-                        style as any,
-                    ]}
+                    style={[styles.input, { color: colors.text }, style as any]}
                 />
                 {rightIcon ? <View style={styles.iconWrap}>{rightIcon}</View> : null}
             </View>
 
             {error ? (
-                <AppText variant="muted" style={{ color: colors.danger, marginTop: 6 }}>
+                <AppText variant="muted" style={[styles.error, { color: colors.danger }]}>
                     {error}
                 </AppText>
             ) : null}
@@ -48,11 +64,14 @@ function AppInputBase({ label, error, style, rightIcon, ...rest }: AppInputProps
 
 const styles = StyleSheet.create({
     wrap: {
-        marginBottom: 14,
+        width: "100%",
+    },
+    label: {
+        marginBottom: 6,
     },
     inputRow: {
         minHeight: 52,
-        borderRadius: 14,
+        borderRadius: radius.md,
         borderWidth: 1,
         paddingHorizontal: 14,
         flexDirection: "row",
@@ -65,6 +84,9 @@ const styles = StyleSheet.create({
     },
     iconWrap: {
         marginLeft: 10,
+    },
+    error: {
+        marginTop: 6,
     },
 });
 

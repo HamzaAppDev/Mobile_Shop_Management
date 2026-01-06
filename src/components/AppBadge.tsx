@@ -1,18 +1,54 @@
 import { AppText } from "@/components/AppText";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
+import type { AppColors } from "@/design/tokens/colors";
+import { radius } from "@/design/tokens/radius";
 import React, { memo, useMemo } from "react";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { StyleSheet, View, type TextStyle, type ViewStyle } from "react-native";
 
-export type BadgeVariant =
-    | "neutral"
-    | "primary"
-    | "success"
-    | "warning"
-    | "danger"
-    | "info"
-    | "paid"
-    | "pending"
-    | "overdue";
+export const BADGE_VARIANTS = {
+    neutral: {
+        bg: (c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(255,255,255,0.06)" : "#F2F4F8"),
+        fg: (c: AppColors) => c.muted,
+        border: (c: AppColors, mode: "light" | "dark") => (mode === "dark" ? c.border : "transparent"),
+    },
+
+    primary: {
+        bg: (_c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(47,128,237,0.18)" : "rgba(47,128,237,0.10)"),
+        fg: (c: AppColors) => c.primary,
+        border: () => "transparent",
+    },
+
+    success: {
+        bg: (_c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(34,197,94,0.18)" : "rgba(34,197,94,0.10)"),
+        fg: (c: AppColors) => c.success,
+        border: () => "transparent",
+    },
+
+    warning: {
+        bg: (_c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(251,191,36,0.18)" : "rgba(251,191,36,0.12)"),
+        fg: (c: AppColors) => c.warning,
+        border: () => "transparent",
+    },
+
+    danger: {
+        bg: (_c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(239,68,68,0.18)" : "rgba(239,68,68,0.10)"),
+        fg: (c: AppColors) => c.danger,
+        border: () => "transparent",
+    },
+
+    info: {
+        bg: (_c: AppColors, mode: "light" | "dark") => (mode === "dark" ? "rgba(96,165,250,0.18)" : "rgba(96,165,250,0.12)"),
+        fg: (c: AppColors) => c.info,
+        border: () => "transparent",
+    },
+
+    // Aliases (same visual treatment, different semantic label)
+    paid: "success",
+    pending: "warning",
+    overdue: "danger",
+} as const;
+
+export type BadgeVariant = keyof typeof BADGE_VARIANTS;
 
 export type AppBadgeProps = {
     label: string;
@@ -22,6 +58,11 @@ export type AppBadgeProps = {
     style?: ViewStyle;
     textStyle?: TextStyle;
 };
+
+function resolveVariantKey(v: BadgeVariant) {
+    const mapped = BADGE_VARIANTS[v];
+    return typeof mapped === "string" ? mapped : v;
+}
 
 function AppBadgeBase({
     label,
@@ -33,29 +74,16 @@ function AppBadgeBase({
 }: AppBadgeProps) {
     const { colors, mode } = useAppTheme();
 
-    const { bg, fg, border } = useMemo(() => {
-        // Keep badges soft + readable like your Stitch UI
-        const soft = (hex: string) => (mode === "dark" ? "rgba(255,255,255,0.06)" : hex);
+    const key = resolveVariantKey(variant);
 
-        switch (variant) {
-            case "primary":
-                return { bg: mode === "dark" ? "rgba(47,128,237,0.18)" : "#EAF2FF", fg: colors.primary, border: "transparent" };
-            case "success":
-            case "paid":
-                return { bg: mode === "dark" ? "rgba(34,197,94,0.18)" : "#EAFBF1", fg: colors.success, border: "transparent" };
-            case "warning":
-            case "pending":
-                return { bg: mode === "dark" ? "rgba(251,191,36,0.18)" : "#FFF6E5", fg: colors.warning, border: "transparent" };
-            case "danger":
-            case "overdue":
-                return { bg: mode === "dark" ? "rgba(239,68,68,0.18)" : "#FFECEC", fg: colors.danger, border: "transparent" };
-            case "info":
-                return { bg: mode === "dark" ? "rgba(96,165,250,0.18)" : "#EAF4FF", fg: colors.info, border: "transparent" };
-            case "neutral":
-            default:
-                return { bg: soft(mode === "dark" ? "" : "#F2F4F8"), fg: colors.muted, border: mode === "dark" ? colors.border : "transparent" };
-        }
-    }, [variant, colors, mode]);
+    const { bg, fg, border } = useMemo(() => {
+        const V = BADGE_VARIANTS[key] as Exclude<(typeof BADGE_VARIANTS)[typeof key], string>;
+        return {
+            bg: V.bg(colors, mode),
+            fg: V.fg(colors),
+            border: V.border(colors, mode),
+        };
+    }, [colors, mode, key]);
 
     return (
         <View
@@ -88,9 +116,10 @@ const styles = StyleSheet.create({
     base: {
         flexDirection: "row",
         alignItems: "center",
-        borderRadius: 999,
+        borderRadius: radius.full,
     },
     border: { borderWidth: 1 },
+
     sm: {
         paddingHorizontal: 10,
         paddingVertical: 6,
