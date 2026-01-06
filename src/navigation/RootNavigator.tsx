@@ -6,6 +6,7 @@ import { AppBadge } from "@/components/AppBadge";
 import { AppCard } from "@/components/AppCard";
 import { AppHeader } from "@/components/AppHeader";
 import { AppInput } from "@/components/AppInput";
+import { AppSelectField } from "@/components/AppSelectField";
 import { AppText } from "@/components/AppText";
 import { AppButton } from "@/components/button/AppButton";
 import { View } from "react-native";
@@ -22,6 +23,16 @@ function LoginScreen() {
         <AppBadge label={"Pending"} />
         <AppHeader title={"Header"} />
       </AppCard>
+
+      <AppSelectField
+        label="Demo Select"
+        data={[
+          { id: 1, name: "Option 1" },
+          { id: 2, name: "Option 2" },
+        ]}
+        getValue={(item) => item.id}
+        getLabel={(item) => item.name}
+      />
     </View>
   );
 }

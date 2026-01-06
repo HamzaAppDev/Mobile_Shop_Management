@@ -95,7 +95,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
         label,
         placeholder = "Select",
         title,
-        data,
+        data = [],
         getValue,
         getLabel,
         renderItem,
@@ -398,7 +398,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
     );
 
     return (
-        <View style={containerStyle}>
+        <View style={[containerStyle, { width: "100%" }]}>
             {label ? (
                 <AppText variant="muted" style={{ marginBottom: 6 }}>
                     {label}
