@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AppErrorBoundary } from "./src/app/AppErrorBoundary";
@@ -11,9 +12,11 @@ export default function App() {
     <AppErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AppThemeProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
+          <BottomSheetModalProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </BottomSheetModalProvider>
         </AppThemeProvider>
       </GestureHandlerRootView>
     </AppErrorBoundary>
