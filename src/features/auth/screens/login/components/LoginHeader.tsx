@@ -1,28 +1,53 @@
 import { AppText } from "@/components";
+import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { space } from "@/design/tokens";
+import { radius } from "@/design/tokens/radius";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { StyleSheet, View } from "react-native";
 
-type Props = {
-  shopName?: string; // optional later
-};
+function LoginHeaderBase() {
+  const { colors } = useAppTheme();
 
-function LoginHeaderBase({ shopName }: Props) {
   return (
     <View style={styles.wrap}>
-      <AppText variant="title">Enter PIN</AppText>
-      <AppText variant="muted" style={styles.sub}>
-        {shopName
-          ? `Unlock ${shopName}`
-          : "Enter your 4-digit PIN to continue."}
+      <View style={[styles.iconWrap, { backgroundColor: colors.surface }]}>
+        <MaterialCommunityIcons
+          name="shopping"
+          size={18}
+          color={colors.primary}
+        />
+      </View>
+
+      <AppText style={styles.title}>Welcome Back</AppText>
+      <AppText variant="muted" style={styles.subtitle}>
+        Sign in to manage your shop
       </AppText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginTop: space.lg },
-  sub: { marginTop: space.sm },
+  wrap: {
+    alignItems: "center",
+    paddingTop: space.xl,
+    paddingBottom: space.lg,
+  },
+  iconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: space.md,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "800",
+  },
+  subtitle: {
+    marginTop: space.xs,
+  },
 });
 
 export const LoginHeader = memo(LoginHeaderBase);
