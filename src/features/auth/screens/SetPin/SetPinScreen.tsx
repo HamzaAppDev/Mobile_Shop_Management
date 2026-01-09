@@ -4,9 +4,8 @@ import { radius, space } from "@/design/tokens";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { FingerprintCard } from "./components/FingerprintCard";
-import { Keypad } from "./components/Keypad";
-import { PinIndicators } from "./components/PinIndicators";
+import { Keypad, PinIndicators } from "../../components";
+import { FingerprintCard } from "./components";
 
 const PIN_LENGTH = 4;
 
