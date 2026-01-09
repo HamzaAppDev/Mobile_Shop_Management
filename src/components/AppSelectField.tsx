@@ -2,27 +2,27 @@ import { AppButton, AppDivider, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { radius } from "@/design/tokens/radius";
 import {
-    BottomSheetBackdrop,
-    BottomSheetModal,
-    BottomSheetTextInput,
-    BottomSheetView, // <--- CHANGED: Better keyboard handling
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetTextInput,
+  BottomSheetView, // <--- CHANGED: Better keyboard handling
 } from "@gorhom/bottom-sheet";
 import React, {
-    memo,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 import {
-    FlatList,
-    Keyboard,
-    Pressable,
-    StyleSheet,
-    View,
-    type ListRenderItemInfo,
-    type ViewStyle,
+  FlatList,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  View,
+  type ListRenderItemInfo,
+  type ViewStyle,
 } from "react-native";
 
 type Id = string | number;
@@ -551,82 +551,83 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
         handleIndicatorStyle={{ backgroundColor: colors.divider }}
       >
         <BottomSheetView>
-        <View style={styles.sheetHeader}>
-          <AppText variant="subtitle">{title ?? label ?? "Select"}</AppText>
+          <View style={styles.sheetHeader}>
+            <AppText variant="subtitle">{title ?? label ?? "Select"}</AppText>
 
-          {props.allowClear ? (
-            (isMultiple ? selectedValues.length > 0 : selectedValue != null) ? (
-              <Pressable
-                onPress={handleClear}
-                hitSlop={10}
-                style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
-              >
-                <AppText style={{ color: colors.primary, fontWeight: "700" }}>
-                  Clear
-                </AppText>
-              </Pressable>
+            {props.allowClear ? (
+              (
+                isMultiple ? selectedValues.length > 0 : selectedValue != null
+              ) ? (
+                <Pressable
+                  onPress={handleClear}
+                  hitSlop={10}
+                  style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+                >
+                  <AppText style={{ color: colors.primary, fontWeight: "700" }}>
+                    Clear
+                  </AppText>
+                </Pressable>
+              ) : (
+                <View style={{ width: 44 }} />
+              )
             ) : (
               <View style={{ width: 44 }} />
-            )
-          ) : (
-            <View style={{ width: 44 }} />
-          )}
-        </View>
-
-        {searchable ? (
-          <View style={styles.searchWrap}>
-            {/* ✅ FIXED: Use BottomSheetTextInput for proper keyboard interaction */}
-            <BottomSheetTextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder={searchPlaceholder}
-              placeholderTextColor={colors.placeholder}
-              style={[
-                styles.searchInput,
-                {
-                  backgroundColor:
-                    mode === "dark" ? "rgba(255,255,255,0.06)" : "#F2F4F8",
-                  borderColor: colors.border,
-                  color: colors.text,
-                },
-              ]}
-            />
+            )}
           </View>
-        ) : null}
 
-        <AppDivider />
-
-        <FlatList
-          ref={listRef}
-          data={filtered}
-          keyExtractor={keyExtractor}
-          renderItem={renderRow}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          onScrollToIndexFailed={onScrollToIndexFailed}
-          // If you keep default rows, this makes scrollToIndex more reliable:
-          getItemLayout={
-            renderItem
-              ? undefined
-              : (_data, index) => ({
-                  length: estimatedItemHeight,
-                  offset: estimatedItemHeight * index,
-                  index,
-                })
-          }
-          ListEmptyComponent={
-            <View style={styles.empty}>
-              <AppText variant="muted">{emptyText}</AppText>
+          {searchable ? (
+            <View style={styles.searchWrap}>
+              <BottomSheetTextInput
+                value={query}
+                onChangeText={setQuery}
+                placeholder={searchPlaceholder}
+                placeholderTextColor={colors.placeholder}
+                style={[
+                  styles.searchInput,
+                  {
+                    backgroundColor:
+                      mode === "dark" ? "rgba(255,255,255,0.06)" : "#F2F4F8",
+                    borderColor: colors.border,
+                    color: colors.text,
+                  },
+                ]}
+              />
             </View>
-          }
-        />
+          ) : null}
 
-        {/* Multi-select footer: Done */}
-        {isMultiple ? (
-          <View style={styles.footer}>
-            <AppButton title="Done" variant="primary" onPress={closeSheet} />
-          </View>
-        ) : null}
+          <AppDivider />
+
+          <FlatList
+            ref={listRef}
+            data={filtered}
+            keyExtractor={keyExtractor}
+            renderItem={renderRow}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            onScrollToIndexFailed={onScrollToIndexFailed}
+            // If you keep default rows, this makes scrollToIndex more reliable:
+            getItemLayout={
+              renderItem
+                ? undefined
+                : (_data, index) => ({
+                    length: estimatedItemHeight,
+                    offset: estimatedItemHeight * index,
+                    index,
+                  })
+            }
+            ListEmptyComponent={
+              <View style={styles.empty}>
+                <AppText variant="muted">{emptyText}</AppText>
+              </View>
+            }
+          />
+
+          {/* Multi-select footer: Done */}
+          {isMultiple ? (
+            <View style={styles.footer}>
+              <AppButton title="Done" variant="primary" onPress={closeSheet} />
+            </View>
+          ) : null}
         </BottomSheetView>
       </BottomSheetModal>
     </View>

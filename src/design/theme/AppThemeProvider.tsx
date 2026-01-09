@@ -15,8 +15,14 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
   const scheme = useColorScheme();
   const mode: AppMode = scheme === "dark" ? "dark" : "light";
 
-  const value = useMemo<AppTheme>(() => ({ mode, colors: semantic[mode] }), [mode]);
-  const navTheme = useMemo(() => getNavigationTheme(mode, semantic[mode]), [mode]);
+  const colors = semantic[mode];
+
+  const value = useMemo<AppTheme>(() => ({ mode, colors }), [mode, colors]);
+
+  const navTheme = useMemo(
+    () => getNavigationTheme(mode, colors),
+    [mode, colors]
+  );
 
   return (
     <AppThemeContext.Provider value={value}>
