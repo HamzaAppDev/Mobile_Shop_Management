@@ -9,8 +9,8 @@ export const semantic = {
 
     // Surfaces
     background: "#F5F7FB", // screen background
-    surface: "#FFFFFF",    // cards, sheets
-    onSurface: "#111827",  // main text on surface
+    surface: "#FFFFFF", // cards, sheets
+    onSurface: "#111827", // main text on surface
 
     // Text
     text: "#111827",
@@ -62,3 +62,6 @@ export const semantic = {
 } as const;
 
 export type AppColors = (typeof semantic)[AppMode];
+export type AppColorKey = keyof AppColors;
+
+export const getColors = (mode: AppMode) => semantic[mode];

@@ -1,7 +1,7 @@
 import { ThemeProvider as NavThemeProvider } from "@react-navigation/native";
 import React, { createContext, useContext, useMemo } from "react";
 import { useColorScheme } from "react-native";
-import { AppColors, AppMode, semantic } from "../tokens/colors";
+import { AppColors, AppMode, getColors } from "../tokens/colors";
 import { getNavigationTheme } from "./navigationTheme";
 
 type AppTheme = {
@@ -15,7 +15,7 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
   const scheme = useColorScheme();
   const mode: AppMode = scheme === "dark" ? "dark" : "light";
 
-  const colors = semantic[mode];
+  const colors = getColors(mode);
 
   const value = useMemo<AppTheme>(() => ({ mode, colors }), [mode, colors]);
 

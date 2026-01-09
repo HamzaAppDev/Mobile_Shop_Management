@@ -5,7 +5,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetTextInput,
-  BottomSheetView, // <--- CHANGED: Better keyboard handling
+  BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, {
   memo,
@@ -183,6 +183,10 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
       : internalValues
     : [];
 
+  const selectedSet = useMemo(() => {
+    return new Set((isMultiple ? selectedValues : []).map(toKey));
+  }, [isMultiple, selectedValues]);
+
   // Keep internal selection in sync when default changes (uncontrolled only)
   useEffect(() => {
     if (!isMultiple && !singleIsControlled) {
@@ -250,7 +254,6 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
 
   const openSheet = useCallback(() => {
     if (disabled) return;
-    console.log("openSheet");
     setOpen(true);
     // Optional: clear query on open?
     // setQuery("");
@@ -419,11 +422,13 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
 
   const isSelected = useCallback(
     (item: T) => {
-      const id = getValue(item);
-      if (isMultiple) return selectedValues.some((v) => toKey(v) === toKey(id));
-      return selectedValue != null && toKey(selectedValue) === toKey(id);
+      const id = toKey(getValue(item));
+
+      if (isMultiple) return selectedSet.has(id);
+
+      return selectedValue != null && toKey(selectedValue) === id;
     },
-    [getValue, isMultiple, selectedValue, selectedValues]
+    [getValue, isMultiple, selectedSet, selectedValue]
   );
 
   const renderRow = useCallback(
@@ -546,7 +551,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
         index={0}
         snapPoints={snapPoints}
         enablePanDownToClose
-        // backdropComponent={Backdrop}
+        backdropComponent={Backdrop}
         backgroundStyle={{ backgroundColor: colors.surface }}
         handleIndicatorStyle={{ backgroundColor: colors.divider }}
       >
@@ -624,7 +629,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
 
           {/* Multi-select footer: Done */}
           {isMultiple ? (
-            <View style={styles.footer}>
+            <View style={[styles.footer, { borderTopColor: colors.divider }]}>
               <AppButton title="Done" variant="primary" onPress={closeSheet} />
             </View>
           ) : null}
