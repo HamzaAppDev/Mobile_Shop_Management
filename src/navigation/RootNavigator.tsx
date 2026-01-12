@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/appRoot/store/sessionStore";
+import { useSessionStore } from "@/app/store/sessionStore";
 import React from "react";
 import { AuthNavigator, QuickUnlockNavigator } from "./auth";
 import { AppTabs } from "./tabs/AppTabs";

@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/appRoot/store/sessionStore";
+import { useSessionStore } from "@/app/store/sessionStore";
 import { AppScreen } from "@/components";
 import { space } from "@/design/tokens";
 import React, { useCallback, useEffect, useMemo, useState } from "react";

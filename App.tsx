@@ -1,11 +1,11 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { AppErrorBoundary } from "./src/appRoot/AppErrorBoundary";
+import { AppErrorBoundary } from "./src/app/AppErrorBoundary";
 import { navigationRef } from "./src/navigation/rootNavigation";
 
-import { AppLifecycle } from "@/appRoot";
-import { useBootstrap } from "@/appRoot/bootstrap/useBootstrap";
+import { AppLifecycle } from "@/app";
+import { useBootstrap } from "@/app/bootstrap/useBootstrap";
 import React from "react";
 import { AppThemeProvider } from "./src/design/theme/AppThemeProvider";
 import { RootNavigator } from "./src/navigation/RootNavigator";

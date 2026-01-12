@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/appRoot/store/sessionStore";
+import { useSessionStore } from "@/app/store/sessionStore";
 import { AppScreen, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { space } from "@/design/tokens";

@@ -12,7 +12,6 @@ import type { AuthStackParamList } from "../types";
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export function AuthNavigator() {
-  console.log("Yes");
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={Routes.Auth.Login} component={LoginScreen} />
