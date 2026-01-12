@@ -1,26 +1,29 @@
-import { AppHeader, AppScreen } from "@/components";
+import { useSessionStore } from "@/app/store/sessionStore";
+import { AppHeader, AppScreen, AppText } from "@/components";
 import { space } from "@/design/tokens";
 import { useAuthNavigation } from "@/navigation/auth";
-import { Routes } from "@/navigation/routes";
 import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-
-import { SignupFooter, SignupFormCard, SignupHeader } from "./components";
+import { SignupFormCard, type SignupForm } from "./components/SignupFormCard";
 
 export function SignupScreen() {
   const nav = useAuthNavigation();
 
+  // design-only: after signup we mark signed in
+  const signIn = useSessionStore((s) => s.signIn);
+
+  const onCreate = useCallback(
+    (_values: SignupForm) => {
+      // Later: Firebase create user, then:
+      signIn();
+      // RootNavigator will now show QuickUnlock (if enabled) or AppTabs
+      // Next step for onboarding: you can navigate to SetPin screen inside Auth flow,
+      // but state-driven root is cleaner: we’ll do onboarding gate later.
+    },
+    [signIn]
+  );
+
   const goBack = useCallback(() => nav.goBack(), [nav]);
-
-  const onCreate = useCallback(() => {
-    // Design-only flow:
-    // after sign up => go to SetPin
-    nav.navigate(Routes.Auth.SetPin);
-  }, [nav]);
-
-  const onGoLogin = useCallback(() => {
-    nav.navigate(Routes.Auth.Login);
-  }, [nav]);
 
   return (
     <AppScreen padded backgroundVariant="background">
@@ -32,19 +35,22 @@ export function SignupScreen() {
       />
 
       <View style={styles.body}>
-        <SignupHeader />
-        <SignupFormCard onSubmit={onCreate} />
-        <SignupFooter onCreate={onCreate} onGoLogin={onGoLogin} />
+        <AppText style={styles.title}>
+          Start your digital register today.
+        </AppText>
 
-        <View style={{ height: space.lg }} />
+        <SignupFormCard onCreate={onCreate} />
       </View>
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    paddingTop: space.md,
+  body: { flex: 1, paddingTop: space.md },
+  title: {
+    fontSize: 22,
+    fontWeight: "800",
+    lineHeight: 28,
+    marginBottom: space.lg,
   },
 });

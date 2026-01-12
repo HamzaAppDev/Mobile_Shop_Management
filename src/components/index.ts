@@ -5,4 +5,5 @@ export * from "./AppHeader";
 export * from "./AppInput";
 export * from "./AppText";
 export * from "./button";
+export * from "./form";
 export * from "./Screen";

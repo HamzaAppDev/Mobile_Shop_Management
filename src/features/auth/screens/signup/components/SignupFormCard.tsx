@@ -1,35 +1,67 @@
-import { AppCard, AppInput, AppText } from "@/components";
+import { AppButton, AppCard } from "@/components";
+import { FormInput } from "@/components/form";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { space } from "@/design/tokens";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { memo, useCallback, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Pressable, StyleSheet } from "react-native";
+import { z } from "zod";
+
+const SignupSchema = z
+  .object({
+    fullName: z.string().min(2, "Full name is required"),
+    email: z.string().min(1, "Email is required").email("Enter a valid email"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(6, "Confirm your password"),
+  })
+  .refine((v) => v.password === v.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type SignupForm = z.infer<typeof SignupSchema>;
 
 type Props = {
-  onSubmit: () => void; // design-only
+  onCreate: (values: SignupForm) => void; // design-only
 };
 
-function SignupFormCardBase({ onSubmit }: Props) {
+function SignupFormCardBase({ onCreate }: Props) {
   const { colors } = useAppTheme();
-
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const [confirm, setConfirm] = useState("");
-
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const togglePass = useCallback(() => setShowPass((v) => !v), []);
   const toggleConfirm = useCallback(() => setShowConfirm((v) => !v), []);
 
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+  } = useForm<SignupForm>({
+    resolver: zodResolver(SignupSchema),
+    mode: "onChange",
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const submit = useMemo(
+    () => handleSubmit(onCreate),
+    [handleSubmit, onCreate]
+  );
+
   return (
     <AppCard style={styles.card}>
-      <AppText style={styles.label}>Full Name</AppText>
-      <AppInput
+      <FormInput
+        control={control}
+        name="fullName"
+        label="Full Name"
         placeholder="Enter your full name"
-        value={fullName}
-        onChangeText={setFullName}
         autoCapitalize="words"
         rightIcon={
           <MaterialCommunityIcons
@@ -40,13 +72,11 @@ function SignupFormCardBase({ onSubmit }: Props) {
         }
       />
 
-      <View style={{ height: space.md }} />
-
-      <AppText style={styles.label}>Email Address</AppText>
-      <AppInput
+      <FormInput
+        control={control}
+        name="email"
+        label="Email Address"
         placeholder="name@example.com"
-        value={email}
-        onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
         rightIcon={
@@ -58,13 +88,11 @@ function SignupFormCardBase({ onSubmit }: Props) {
         }
       />
 
-      <View style={{ height: space.md }} />
-
-      <AppText style={styles.label}>Password</AppText>
-      <AppInput
+      <FormInput
+        control={control}
+        name="password"
+        label="Password"
         placeholder="Enter password"
-        value={pass}
-        onChangeText={setPass}
         secureTextEntry={!showPass}
         autoCapitalize="none"
         rightIcon={
@@ -78,13 +106,11 @@ function SignupFormCardBase({ onSubmit }: Props) {
         }
       />
 
-      <View style={{ height: space.md }} />
-
-      <AppText style={styles.label}>Confirm Password</AppText>
-      <AppInput
+      <FormInput
+        control={control}
+        name="confirmPassword"
+        label="Confirm Password"
         placeholder="Re-enter password"
-        value={confirm}
-        onChangeText={setConfirm}
         secureTextEntry={!showConfirm}
         autoCapitalize="none"
         rightIcon={
@@ -97,17 +123,19 @@ function SignupFormCardBase({ onSubmit }: Props) {
           </Pressable>
         }
       />
+
+      <AppButton
+        title="Create account"
+        onPress={submit}
+        loading={isSubmitting}
+        disabled={!isValid || isSubmitting}
+      />
     </AppCard>
   );
 }
 
 const styles = StyleSheet.create({
   card: { padding: space.lg },
-  label: {
-    fontSize: 13,
-    fontWeight: "700",
-    marginBottom: space.sm,
-  },
 });
 
 export const SignupFormCard = memo(SignupFormCardBase);
