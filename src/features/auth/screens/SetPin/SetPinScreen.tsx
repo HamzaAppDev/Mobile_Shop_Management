@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/appRoot/store/sessionStore";
 import { AppButton, AppScreen, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
@@ -23,6 +24,11 @@ export function SetPinScreen() {
 
   const activePin = step === "set" ? draft : confirm;
   const isComplete = activePin.length === PIN_LENGTH;
+
+  const setBiometricEnabled = useSessionStore((s) => s.setBiometricEnabled);
+
+  const setPinEnabled = useSessionStore((s) => s.setPinEnabled);
+  const unlock = useSessionStore((s) => s.unlock);
 
   const indicators = useMemo(
     () =>
@@ -71,9 +77,8 @@ export function SetPinScreen() {
 
     // confirm step
     if (firstPin && pinStr === firstPin) {
-      // ✅ TODO: save PIN securely + fingerprint preference
-      // expo-secure-store recommended
-      // navigate to LoginPinScreen (or App)
+      setPinEnabled(true);
+      unlock();
       return;
     }
 
@@ -116,7 +121,13 @@ export function SetPinScreen() {
       {step === "set" ? (
         <FingerprintCard
           enabled={useFingerprint}
-          onToggle={() => setUseFingerprint((v) => !v)}
+          onToggle={() => {
+            setUseFingerprint((v) => {
+              const next = !v;
+              setBiometricEnabled(next);
+              return next;
+            });
+          }}
         />
       ) : null}
 

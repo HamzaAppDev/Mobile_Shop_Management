@@ -1,21 +1,19 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useSessionStore } from "@/appRoot/store/sessionStore";
 import React from "react";
-import { AuthNavigator } from "./auth/AuthNavigator";
+import { AuthNavigator, QuickUnlockNavigator } from "./auth";
 import { AppTabs } from "./tabs/AppTabs";
-import type { RootStackParamList } from "./types";
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function RootNavigator() {
-  const isLoggedIn = false;
+  const authStatus = useSessionStore((s) => s.authStatus);
+  const locked = useSessionStore((s) => s.locked);
+  const quickUnlockEnabled = useSessionStore((s) => s.quickUnlockEnabled);
 
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn ? (
-        <Stack.Screen name="App" component={AppTabs} />
-      ) : (
-        <Stack.Screen name="Auth" component={AuthNavigator} />
-      )}
-    </Stack.Navigator>
-  );
+  if (authStatus === "loading") return null;
+
+  if (authStatus === "signedOut") return <AuthNavigator />;
+
+  // signed in:
+  if (quickUnlockEnabled && locked) return <QuickUnlockNavigator />;
+
+  return <AppTabs />;
 }

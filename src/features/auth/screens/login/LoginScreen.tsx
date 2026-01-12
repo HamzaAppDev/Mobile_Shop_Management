@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/appRoot/store/sessionStore";
 import { AppScreen, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { space } from "@/design/tokens";
@@ -14,10 +15,9 @@ export function LoginScreen() {
   const { colors } = useAppTheme();
   const nav = useAuthNavigation();
 
+  const signIn = useSessionStore((s) => s.signIn);
   const onLogin = useCallback(() => {
-    // Design-only flow:
-    // after login -> go to SetPin (later you will decide based on stored pin)
-    nav.navigate(Routes.Auth.SetPin);
+    signIn();
   }, [nav]);
 
   const onCreateAccount = useCallback(() => {

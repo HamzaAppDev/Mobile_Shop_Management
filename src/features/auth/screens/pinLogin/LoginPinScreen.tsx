@@ -1,6 +1,7 @@
+import { useSessionStore } from "@/appRoot/store/sessionStore";
 import { AppScreen } from "@/components";
 import { space } from "@/design/tokens";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Keypad, PinIndicators } from "../../components";
 import { FingerprintAction } from "./components/FingerprintAction";
@@ -11,6 +12,14 @@ const PIN_LENGTH = 4;
 export function LoginPinScreen() {
   const [pin, setPin] = useState<string[]>([]);
   const fingerprintEnabled = true; // TODO: read from secure settings
+  const unlock = useSessionStore((s) => s.unlock);
+
+  // For design testing:
+  useEffect(() => {
+    if (pin.length === 4) {
+      unlock();
+    }
+  }, [pin, unlock]);
 
   const isComplete = pin.length === PIN_LENGTH;
 

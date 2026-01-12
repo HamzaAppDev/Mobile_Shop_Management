@@ -8,6 +8,6 @@ export type AuthStackParamList = {
 };
 
 export type RootStackParamList = {
-  Auth: undefined;
-  App: undefined;
+  [Routes.Root.Auth]: undefined;
+  [Routes.Root.App]: undefined;
 };
