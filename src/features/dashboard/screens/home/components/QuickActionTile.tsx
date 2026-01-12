@@ -23,7 +23,10 @@ function QuickActionTileBase({ title, icon, onPress, style }: Props) {
         style,
       ]}
     >
-      <AppCard style={[styles.card, { borderColor: colors.border }, style]}>
+      <AppCard
+        padding={0}
+        style={[styles.card, { borderColor: colors.border }, style]}
+      >
         {icon}
         <AppText style={styles.title}>{title}</AppText>
       </AppCard>
@@ -33,8 +36,9 @@ function QuickActionTileBase({ title, icon, onPress, style }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    padding: space.lg,
-    borderRadius: radius.lg,
+    paddingHorizontal: space.md,
+    paddingVertical: space.lg,
+    borderRadius: radius.md,
     borderWidth: 1,
     minHeight: 94,
     justifyContent: "space-between",
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 13,
     fontWeight: "800",
+    marginTop: space.lg,
   },
 });
 

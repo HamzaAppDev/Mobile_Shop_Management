@@ -5,9 +5,9 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-type Props = { onPress?: () => void };
+type Props = { title: string; onPress?: () => void };
 
-function QuickSaleFabBase({ onPress }: Props) {
+function AddFabButtonBase({ onPress, title }: Props) {
   const { colors } = useAppTheme();
 
   return (
@@ -22,7 +22,7 @@ function QuickSaleFabBase({ onPress }: Props) {
       >
         <Ionicons name="add" size={18} color={colors.onPrimary} />
         <AppText style={[styles.text, { color: colors.onPrimary }]}>
-          Quick Sale
+          {title}
         </AppText>
       </Pressable>
     </View>
@@ -32,9 +32,8 @@ function QuickSaleFabBase({ onPress }: Props) {
 const styles = StyleSheet.create({
   wrap: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 72, // above tab bar
+    right: 14,
+    bottom: 0,
     alignItems: "center",
   },
   btn: {
@@ -49,4 +48,4 @@ const styles = StyleSheet.create({
   text: { fontWeight: "800" },
 });
 
-export const QuickSaleFab = memo(QuickSaleFabBase);
+export const AddFabButton = memo(AddFabButtonBase);

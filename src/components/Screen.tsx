@@ -41,13 +41,14 @@ type Props = {
 
   // Optional header slot (keeps Screen flexible but not forced)
   header?: React.ReactNode;
+  floating?: React.ReactNode;
 };
 
 function AppScreenBase({
   children,
   padded = true,
   paddingHorizontal = 16,
-  paddingVertical = 12,
+  paddingVertical = 0,
   scroll = false,
   scrollProps,
   refreshing = false,
@@ -57,6 +58,7 @@ function AppScreenBase({
   contentStyle,
   backgroundVariant = "background",
   header,
+  floating,
 }: Props) {
   const { colors } = useAppTheme();
 
@@ -97,17 +99,20 @@ function AppScreenBase({
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: bg }, style]}>
       {header ? <View style={styles.headerWrap}>{header}</View> : null}
+      <View style={styles.bodyWrap}>
+        {keyboardAvoiding ? (
+          <KeyboardAvoidingView
+            style={styles.kav}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+          >
+            {Body}
+          </KeyboardAvoidingView>
+        ) : (
+          Body
+        )}
 
-      {keyboardAvoiding ? (
-        <KeyboardAvoidingView
-          style={styles.kav}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
-          {Body}
-        </KeyboardAvoidingView>
-      ) : (
-        Body
-      )}
+        {floating ? <View style={styles.floating}>{floating}</View> : null}
+      </View>
     </SafeAreaView>
   );
 }
@@ -120,7 +125,16 @@ const styles = StyleSheet.create({
   },
   kav: { flex: 1 },
   content: { flex: 1 },
+  bodyWrap: { flex: 1, position: "relative" },
   scrollContent: { flexGrow: 1 },
+  floating: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // pointerEvents so taps go through where no button exists
+    pointerEvents: "box-none",
+  },
 });
 
 export const AppScreen = memo(AppScreenBase);

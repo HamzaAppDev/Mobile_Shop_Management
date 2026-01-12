@@ -7,15 +7,10 @@ import { Pressable, StyleSheet, View } from "react-native";
 
 type Props = {
   shopName: string;
-  subtitle?: string;
   onPressSettings?: () => void;
 };
 
-function HomeTopBarBase({
-  shopName,
-  subtitle = "Mobile Zone",
-  onPressSettings,
-}: Props) {
+function HomeTopBarBase({ shopName, onPressSettings }: Props) {
   const { colors } = useAppTheme();
 
   return (
@@ -24,12 +19,9 @@ function HomeTopBarBase({
 
       <View style={styles.titleWrap}>
         <AppText variant="muted" style={styles.sub}>
-          NAMASTE
+          Welcome
         </AppText>
         <AppText style={styles.title}>{shopName}</AppText>
-        <AppText variant="muted" style={styles.sub2}>
-          {subtitle}
-        </AppText>
       </View>
 
       <Pressable

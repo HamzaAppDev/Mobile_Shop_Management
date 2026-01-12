@@ -26,6 +26,7 @@ function HomeSummaryCardsBase({
   return (
     <View style={styles.wrap}>
       <AppCard
+        padding={0}
         style={[styles.bigCard, { backgroundColor: "rgba(34,197,94,0.08)" }]}
       >
         <View style={styles.bigRow}>

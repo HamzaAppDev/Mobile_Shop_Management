@@ -1,6 +1,6 @@
 import { AppIcon, AppText, type AppIconName } from "@/components";
 import { useAppTheme } from "@/design/theme";
-import { space } from "@/design/tokens";
+import { radius, space } from "@/design/tokens";
 import React, { memo, useMemo } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { QuickActionTile } from "./QuickActionTile";
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   iconBg: {
     width: 34,
     height: 34,
-    borderRadius: 12,
+    borderRadius: radius.sm,
     alignItems: "center",
     justifyContent: "center",
   },
