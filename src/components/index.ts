@@ -2,6 +2,7 @@ export * from "./AppBadge";
 export * from "./AppCard";
 export * from "./AppDivider";
 export * from "./AppHeader";
+export * from "./AppIcon";
 export * from "./AppInput";
 export * from "./AppText";
 export * from "./button";

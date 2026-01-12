@@ -1,45 +1,63 @@
+import { AppIcon } from "@/components/AppIcon";
+import { useAppTheme } from "@/design/theme";
+import { ExpensesScreen, HomeScreen, SalesScreen } from "@/features/dashboard";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Text, View } from "react-native";
-
-function DashboardScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Dashboard</Text>
-    </View>
-  );
-}
-
-function SalesScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Sales</Text>
-    </View>
-  );
-}
-
-function ExpensesScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Expenses</Text>
-    </View>
-  );
-}
-
-export type AppTabsParamList = {
-  Dashboard: undefined;
-  Sales: undefined;
-  Expenses: undefined;
-};
+import { AppTabRoutes, AppTabsParamList } from "./appTabs";
 
 const Tab = createBottomTabNavigator<AppTabsParamList>();
 
 export function AppTabs() {
+  const { colors } = useAppTheme();
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Sales" component={SalesScreen} />
-      <Tab.Screen name="Expenses" component={ExpensesScreen} />
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.muted,
+        tabBarStyle: {
+          borderTopColor: colors.border,
+          backgroundColor: colors.surface,
+          height: 64,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "600",
+        },
+      }}
+    >
+      <Tab.Screen
+        name={AppTabRoutes.Dashboard}
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AppIcon name="home-outline" size={22} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name={AppTabRoutes.Sales}
+        component={SalesScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AppIcon name="cart-outline" size={22} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name={AppTabRoutes.Expenses}
+        component={ExpensesScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AppIcon name="cart-arrow-down" size={22} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
