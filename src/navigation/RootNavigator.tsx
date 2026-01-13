@@ -1,7 +1,7 @@
 import { useSessionStore } from "@/app/store/sessionStore";
 import React from "react";
+import { AppNavigator } from "./app/AppNavigator";
 import { AuthNavigator, QuickUnlockNavigator } from "./auth";
-import { AppTabs } from "./tabs/AppTabs";
 
 export function RootNavigator() {
   const authStatus = useSessionStore((s) => s.authStatus);
@@ -15,5 +15,5 @@ export function RootNavigator() {
   // signed in:
   if (quickUnlockEnabled && locked) return <QuickUnlockNavigator />;
 
-  return <AppTabs />;
+  return <AppNavigator />;
 }

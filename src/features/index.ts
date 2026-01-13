@@ -1,3 +1,4 @@
+export * from "./auth";
 export * from "./expenses";
-export * from "./home";
 export * from "./sales";
+export * from "./tab";

@@ -1,9 +1,12 @@
 import { AppIcon } from "@/components/AppIcon";
 import { useAppTheme } from "@/design/theme";
-import { ExpensesScreen, HomeScreen, SalesScreen } from "@/features/dashboard";
+import { ExpensesScreen } from "@/features/expenses";
+import { SalesScreen } from "@/features/sales";
+import { HomeScreen } from "@/features/tab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { AppTabRoutes, AppTabsParamList } from "./appTabs";
+import { AppTabRoutes } from "./tabRoutes";
+import { AppTabsParamList } from "./tabTypes";
 
 const Tab = createBottomTabNavigator<AppTabsParamList>();
 

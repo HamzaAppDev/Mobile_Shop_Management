@@ -1,7 +1,6 @@
-import { AppText } from "@/components";
+import { AppIcon, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
-import { Ionicons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -20,7 +19,7 @@ function AddFabButtonBase({ onPress, title }: Props) {
           pressed && { opacity: 0.92, transform: [{ scale: 0.98 }] },
         ]}
       >
-        <Ionicons name="add" size={18} color={colors.onPrimary} />
+        <AppIcon name="plus" size={18} color={colors.onPrimary} />
         <AppText style={[styles.text, { color: colors.onPrimary }]}>
           {title}
         </AppText>

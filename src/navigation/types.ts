@@ -11,3 +11,10 @@ export type RootStackParamList = {
   [Routes.Root.Auth]: undefined;
   [Routes.Root.App]: undefined;
 };
+
+export type AppStackParamList = {
+  [Routes.App.Tabs]: undefined;
+  [Routes.App.Expenses]: undefined;
+  [Routes.App.Sales]: undefined;
+  [Routes.App.AddExpense]: undefined;
+};

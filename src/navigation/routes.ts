@@ -11,6 +11,9 @@ export const Routes = {
   },
   App: {
     Tabs: "App/Tabs",
+    Expenses: "App/Expenses",
+    Sales: "App/Sales",
+    AddExpense: "App/AddExpense",
   },
 } as const;
 

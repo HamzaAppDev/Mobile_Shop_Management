@@ -1,8 +1,4 @@
-export const AppTabRoutes = {
-  Dashboard: "Dashboard",
-  Sales: "Sales",
-  Expenses: "Expenses",
-} as const;
+import type { AppTabRoutes } from "./tabRoutes";
 
 export type AppTabsParamList = {
   [AppTabRoutes.Dashboard]: undefined;
