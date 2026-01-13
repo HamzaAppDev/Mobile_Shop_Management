@@ -6,6 +6,7 @@ import { AppIcon, type AppIconName } from "./AppIcon";
 import { AppText } from "./AppText";
 
 export type AppChipSize = "sm" | "md";
+export type AppChipVariant = "outline" | "filled" | "ghost";
 
 export type AppChipProps = {
   label: string;
@@ -13,16 +14,14 @@ export type AppChipProps = {
   active?: boolean;
   disabled?: boolean;
 
-  // ✅ optional: right icon (chevron, x, etc.)
-  rightIcon?: AppIconName;
+  // ✅ new
+  variant?: AppChipVariant;
 
-  // ✅ optional remove action (shows X icon if not provided rightIcon)
+  rightIcon?: AppIconName;
   onRemove?: () => void;
 
-  // ✅ sizing
   size?: AppChipSize;
 
-  // actions
   onPress?: () => void;
 
   style?: ViewStyle;
@@ -32,6 +31,7 @@ function AppChipBase({
   label,
   active = false,
   disabled = false,
+  variant = "outline",
   rightIcon,
   onRemove,
   size = "md",
@@ -47,6 +47,28 @@ function AppChipBase({
   const padX = size === "sm" ? space.sm : space.md;
   const fontSize = size === "sm" ? 12 : 13;
 
+  // base visual rules
+  const baseBg = variant === "filled" ? colors.surface : "transparent";
+
+  const baseBorder = variant === "ghost" ? "transparent" : colors.border;
+
+  // active visual rules
+  const activeBg = variant === "outline" ? "transparent" : colors.primary;
+
+  const activeBorder = variant === "ghost" ? "transparent" : colors.primary;
+
+  const bg = active ? activeBg : baseBg;
+  const borderColor = active ? activeBorder : baseBorder;
+
+  const textColor = active ? colors.primary : colors.text;
+
+  // if filled + active => white text reads better
+  const resolvedTextColor =
+    active && variant === "filled" ? colors.onPrimary : textColor;
+
+  const iconColor =
+    active && variant === "filled" ? colors.onPrimary : colors.muted;
+
   return (
     <Pressable
       disabled={!isClickable}
@@ -56,8 +78,8 @@ function AppChipBase({
         {
           height,
           paddingHorizontal: padX,
-          backgroundColor: active ? colors.primary : "transparent",
-          borderColor: active ? colors.primary : colors.border,
+          backgroundColor: bg,
+          borderColor,
           opacity: disabled ? 0.55 : pressed ? 0.9 : 1,
         },
         style,
@@ -66,7 +88,7 @@ function AppChipBase({
       <AppText
         numberOfLines={1}
         style={{
-          color: active ? colors.onPrimary : colors.text,
+          color: resolvedTextColor,
           fontWeight: "700",
           fontSize,
         }}
@@ -77,11 +99,7 @@ function AppChipBase({
       {showRight ? (
         <View style={styles.rightWrap}>
           {rightIcon ? (
-            <AppIcon
-              name={rightIcon}
-              size={16}
-              color={active ? colors.onPrimary : colors.muted}
-            />
+            <AppIcon name={rightIcon} size={16} color={iconColor} />
           ) : null}
 
           {onRemove ? (
@@ -90,11 +108,7 @@ function AppChipBase({
               hitSlop={10}
               style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
             >
-              <AppIcon
-                name="close"
-                size={16}
-                color={active ? colors.onPrimary : colors.muted}
-              />
+              <AppIcon name="close" size={16} color={iconColor} />
             </Pressable>
           ) : null}
         </View>
