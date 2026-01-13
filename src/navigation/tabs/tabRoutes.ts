@@ -1,5 +1,4 @@
 export const AppTabRoutes = {
   Dashboard: "Dashboard",
-  Sales: "Sales",
-  Expenses: "Expenses",
+  Profile: "Profile",
 } as const;

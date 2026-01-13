@@ -1,15 +1,11 @@
 import { AppScreen } from "@/components";
 import { AddFabButton } from "@/components/button/AddFabButton";
 import { space } from "@/design/tokens";
-import React, { useCallback } from "react";
+import React from "react";
 import { View } from "react-native";
 import { HomeSummaryCards, HomeTopBar, QuickActionsGrid } from "./components";
 
 export function HomeScreen() {
-  const onPressAction = useCallback((key: string) => {
-    console.log("action:", key);
-  }, []);
-
   return (
     <AppScreen
       padded
@@ -29,7 +25,7 @@ export function HomeScreen() {
         todayExpense={2100}
         pendingMoney={5400}
       />
-      <QuickActionsGrid onPressAction={onPressAction} />
+      <QuickActionsGrid />
       <View style={{ height: 120 }} />
     </AppScreen>
   );

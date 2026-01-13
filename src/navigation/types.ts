@@ -14,7 +14,8 @@ export type RootStackParamList = {
 
 export type AppStackParamList = {
   [Routes.App.Tabs]: undefined;
-  [Routes.App.Expenses]: undefined;
-  [Routes.App.Sales]: undefined;
+  [Routes.App.ExpensesList]: undefined;
+  [Routes.App.AddExpense]: undefined;
+  [Routes.App.SalesList]: undefined;
   [Routes.App.AddExpense]: undefined;
 };

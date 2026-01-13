@@ -1,12 +1,10 @@
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components";
 import { useAppTheme } from "@/design/theme";
-import { ExpensesScreen } from "@/features/expenses";
-import { SalesScreen } from "@/features/sales";
-import { HomeScreen } from "@/features/tab";
+import { HomeScreen, ProfileScreen } from "@/features";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { AppTabRoutes } from "./tabRoutes";
-import { AppTabsParamList } from "./tabTypes";
+import type { AppTabsParamList } from "./tabTypes";
 
 const Tab = createBottomTabNavigator<AppTabsParamList>();
 
@@ -17,7 +15,6 @@ export function AppTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: true,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
@@ -26,10 +23,7 @@ export function AppTabs() {
           height: 64,
           paddingBottom: 8,
         },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "600",
-        },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}
     >
       <Tab.Screen
@@ -43,21 +37,11 @@ export function AppTabs() {
       />
 
       <Tab.Screen
-        name={AppTabRoutes.Sales}
-        component={SalesScreen}
+        name={AppTabRoutes.Profile}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <AppIcon name="cart-outline" size={22} color={color} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name={AppTabRoutes.Expenses}
-        component={ExpensesScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <AppIcon name="cart-arrow-down" size={22} color={color} />
+            <AppIcon name="account-outline" size={22} color={color} />
           ),
         }}
       />

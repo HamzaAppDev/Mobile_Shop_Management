@@ -1,6 +1,9 @@
 import { AppIcon, AppText, type AppIconName } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
+import { Routes } from "@/navigation/routes";
+import { AppStackParamList } from "@/navigation/types";
+import { useNavigation } from "@react-navigation/native";
 import React, { memo, useMemo } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { QuickActionTile } from "./QuickActionTile";
@@ -9,13 +12,15 @@ type Action = {
   key: string;
   title: string;
   icon: { name: AppIconName; color: string; bg: string };
+  route?: keyof AppStackParamList;
 };
 
 type Props = {
-  onPressAction?: (key: string) => void;
+  onPressAction?: (route: keyof AppStackParamList) => void;
 };
 
 function QuickActionsGridBase({ onPressAction }: Props) {
+  const nav = useNavigation<any>();
   const { colors } = useAppTheme();
 
   const actions = useMemo<Action[]>(
@@ -28,6 +33,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
           color: colors.primary,
           bg: "rgba(47,128,237,0.12)",
         },
+        route: Routes.App.SalesList,
       },
       {
         key: "expense",
@@ -37,6 +43,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
           color: colors.danger,
           bg: "rgba(239,68,68,0.10)",
         },
+        route: Routes.App.ExpensesList,
       },
       {
         key: "stock",
@@ -124,7 +131,9 @@ function QuickActionsGridBase({ onPressAction }: Props) {
                 />
               </View>
             }
-            onPress={() => onPressAction?.(item.key)}
+            onPress={() => {
+              if (item.route) nav.navigate(item.route);
+            }}
           />
         )}
       />
