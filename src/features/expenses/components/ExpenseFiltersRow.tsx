@@ -47,7 +47,7 @@ function Chip({
   );
 }
 
-function ExpenseFiltersBase({ value, onChange }: Props) {
+function ExpenseFiltersChipBase({ value, onChange }: Props) {
   return (
     <View style={styles.row}>
       <Chip
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ExpenseFilters = memo(ExpenseFiltersBase);
+export const ExpenseFiltersChip = memo(ExpenseFiltersChipBase);

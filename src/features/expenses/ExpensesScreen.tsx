@@ -1,11 +1,25 @@
 import { AddFabButton, AppScreen } from "@/components";
 import React, { useMemo, useState } from "react";
-import { ExpenseFilters } from "./components/ExpenseFilters";
+import { ExpenseFiltersChip } from "./components";
 import { ExpenseHeaderCard } from "./components/ExpenseHeaderCard";
 import {
   ExpenseTransactionList,
   type ExpenseTx,
 } from "./components/ExpenseTransactionList";
+
+const EXPENSE_PRESETS = [
+  { key: "today", label: "Today" },
+  { key: "yesterday", label: "Yesterday" },
+  { key: "week", label: "This Week" },
+  { key: "month", label: "This Month" },
+];
+
+const CATEGORY_CHIPS = [
+  { key: "all", label: "All" },
+  { key: "lunch", label: "Lunch" },
+  { key: "electricity", label: "Electricity" },
+  { key: "rent", label: "Rent" },
+];
 
 type Filter = "month" | "today" | "yesterday";
 
@@ -65,11 +79,9 @@ export function ExpensesScreen() {
     >
       <ExpenseHeaderCard total={14350} />
 
-      <ExpenseFilters value={filter} onChange={setFilter} />
+      <ExpenseFiltersChip value={filter} onChange={setFilter} />
 
       <ExpenseTransactionList data={data} />
-
-      {/* bottom spacing is already handled by paddingBottom */}
     </AppScreen>
   );
 }

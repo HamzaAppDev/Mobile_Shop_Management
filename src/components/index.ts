@@ -1,5 +1,6 @@
 export * from "./AppBadge";
 export * from "./AppCard";
+export * from "./AppChip";
 export * from "./AppDivider";
 export * from "./AppHeader";
 export * from "./AppIcon";
@@ -7,4 +8,5 @@ export * from "./AppInput";
 export * from "./AppText";
 export * from "./button";
 export * from "./form";
+export * from "./records";
 export * from "./Screen";
