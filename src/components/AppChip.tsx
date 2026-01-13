@@ -1,29 +1,29 @@
-import { AppText } from "@/components/AppText";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
-import { Ionicons } from "@expo/vector-icons";
 import React, { memo } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, type ViewStyle } from "react-native";
+import { AppIcon, type AppIconName } from "./AppIcon";
+import { AppText } from "./AppText";
+
+export type AppChipSize = "sm" | "md";
 
 export type AppChipProps = {
   label: string;
+
   active?: boolean;
   disabled?: boolean;
 
-  onPress?: () => void;
+  // ✅ optional: right icon (chevron, x, etc.)
+  rightIcon?: AppIconName;
 
-  /** Optional left icon */
-  leftIcon?: React.ReactNode;
-
-  /** Optional right icon (like chevron / check) */
-  rightIcon?: React.ReactNode;
-
-  /** Optional dismiss "x" action */
+  // ✅ optional remove action (shows X icon if not provided rightIcon)
   onRemove?: () => void;
 
-  /** Visual variants */
-  variant?: "outline" | "filled";
-  size?: "sm" | "md";
+  // ✅ sizing
+  size?: AppChipSize;
+
+  // actions
+  onPress?: () => void;
 
   style?: ViewStyle;
 };
@@ -32,76 +32,72 @@ function AppChipBase({
   label,
   active = false,
   disabled = false,
-  onPress,
-  leftIcon,
   rightIcon,
   onRemove,
-  variant = "outline",
   size = "md",
+  onPress,
   style,
 }: AppChipProps) {
   const { colors } = useAppTheme();
 
-  const clickable = !!onPress && !disabled;
-
-  const bg =
-    variant === "filled"
-      ? active
-        ? colors.primary
-        : colors.surface
-      : "transparent";
-
-  const border = active ? colors.primary : colors.border;
-
-  const textColor =
-    variant === "filled" && active
-      ? colors.onPrimary
-      : active
-      ? colors.primary
-      : colors.muted;
+  const isClickable = !!onPress && !disabled;
+  const showRight = !!rightIcon || !!onRemove;
 
   const height = size === "sm" ? 32 : 36;
-  const px = size === "sm" ? space.md : space.lg;
+  const padX = size === "sm" ? space.sm : space.md;
+  const fontSize = size === "sm" ? 12 : 13;
 
   return (
     <Pressable
-      disabled={!clickable}
+      disabled={!isClickable}
       onPress={onPress}
       style={({ pressed }) => [
         styles.chip,
         {
           height,
-          paddingHorizontal: px,
-          backgroundColor: bg,
-          borderColor: border,
-          opacity: disabled ? 0.55 : pressed ? 0.92 : 1,
-          transform: pressed ? [{ scale: 0.99 }] : undefined,
+          paddingHorizontal: padX,
+          backgroundColor: active ? colors.primary : "transparent",
+          borderColor: active ? colors.primary : colors.border,
+          opacity: disabled ? 0.55 : pressed ? 0.9 : 1,
         },
         style,
       ]}
     >
-      {leftIcon ? <View style={styles.leftIcon}>{leftIcon}</View> : null}
-
-      <AppText numberOfLines={1} style={[styles.label, { color: textColor }]}>
+      <AppText
+        numberOfLines={1}
+        style={{
+          color: active ? colors.onPrimary : colors.text,
+          fontWeight: "700",
+          fontSize,
+        }}
+      >
         {label}
       </AppText>
 
-      {rightIcon ? <View style={styles.rightIcon}>{rightIcon}</View> : null}
+      {showRight ? (
+        <View style={styles.rightWrap}>
+          {rightIcon ? (
+            <AppIcon
+              name={rightIcon}
+              size={16}
+              color={active ? colors.onPrimary : colors.muted}
+            />
+          ) : null}
 
-      {onRemove ? (
-        <Pressable
-          onPress={onRemove}
-          hitSlop={10}
-          style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
-        >
-          <Ionicons
-            name="close"
-            size={16}
-            color={
-              variant === "filled" && active ? colors.onPrimary : colors.muted
-            }
-          />
-        </Pressable>
+          {onRemove ? (
+            <Pressable
+              onPress={onRemove}
+              hitSlop={10}
+              style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+            >
+              <AppIcon
+                name="close"
+                size={16}
+                color={active ? colors.onPrimary : colors.muted}
+              />
+            </Pressable>
+          ) : null}
+        </View>
       ) : null}
     </Pressable>
   );
@@ -115,12 +111,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: space.sm,
   },
-  label: {
-    fontSize: 12,
-    fontWeight: "800",
+  rightWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space.xs,
   },
-  leftIcon: { marginRight: 2 },
-  rightIcon: { marginLeft: 2 },
 });
 
 export const AppChip = memo(AppChipBase);

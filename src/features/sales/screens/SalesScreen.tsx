@@ -1,4 +1,4 @@
-import { AppScreen } from "@/components";
+import { AppHeader, AppScreen } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { space } from "@/design/tokens";
 import React, { useCallback, useMemo, useState } from "react";
@@ -109,24 +109,20 @@ export function SalesScreen() {
       scroll={false}
       backgroundVariant="background"
       paddingHorizontal={space.lg}
-      // header={<SalesHeader title="Sales Records" />}
+      header={<AppHeader title="Sales Records" showBack />}
       contentStyle={{ paddingTop: space.md }}
     >
-      <RecordsHeader
-        title="Sales Records"
-        presets={SALES_PRESETS}
-        presetValue={preset}
-        onChangePreset={(k) => setPreset(k as any)}
-        query={query}
-        onChangeQuery={setQuery}
-        onPressFilter={() => console.log("open sales filter sheet")}
-        filterChips={PAYMENT_CHIPS}
-        filterChipValue={filters.payment}
-        onChangeFilterChip={(k) =>
-          setFilters((p) => ({ ...p, payment: k as any }))
-        }
-        searchPlaceholder="Search items..."
-      />
+      {/* <RecordsToolbar
+    presets={SALES_PRESETS}
+    presetValue={preset}
+    onChangePreset={setPreset}
+    query={query}
+    onChangeQuery={setQuery}
+    onPressFilter={() => salesSheetRef.current?.present()}
+    chips={PAYMENT_CHIPS}
+    chipValue={payment}
+    onChangeChip={setPayment}
+  /> */}
       <SalesPresetRow value={preset} onChange={setPreset} />
 
       <SalesSearchRow

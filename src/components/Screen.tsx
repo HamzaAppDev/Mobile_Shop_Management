@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   headerWrap: {
     paddingHorizontal: space.lg,
-    paddingTop: space.md,
   },
   kav: { flex: 1 },
   content: { flex: 1 },

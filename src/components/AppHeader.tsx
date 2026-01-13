@@ -1,6 +1,6 @@
 import { AppText } from "@/components/AppText";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import { space } from "@/design/tokens";
+import { space, typography } from "@/design/tokens";
 import { radius } from "@/design/tokens/radius";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -57,7 +57,7 @@ function AppHeaderBase({
         {
           backgroundColor: bg,
           borderColor,
-          paddingTop: insets.top + verticalPad, // ✅ safe area correct
+
           paddingBottom: verticalPad,
         },
         containerStyle,
@@ -108,7 +108,6 @@ function AppHeaderBase({
 
 const styles = StyleSheet.create({
   wrap: {
-    paddingHorizontal: space.lg,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   row: {
@@ -130,8 +129,8 @@ const styles = StyleSheet.create({
 
   // ✅ match iOS style
   title: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
     textAlign: "center",
   },
   subtitle: {
