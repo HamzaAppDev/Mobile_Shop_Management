@@ -5,43 +5,46 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-export type ToolbarChip = { key: string; label: string };
+export type ToolbarChip<T extends string = string> = {
+  key: T;
+  label: string;
+};
 
-type Props = {
-  presets: ToolbarChip[];
-  presetValue: string;
-  onChangePreset: (k: string) => void;
+export type RecordsToolbarProps<P extends string, C extends string> = {
+  presets: ToolbarChip<P>[];
+  presetValue: P;
+  onChangePreset: (k: P) => void;
 
   query: string;
+  searchPlaceholder?: string; // ✅ keep it
   onChangeQuery: (t: string) => void;
-  searchPlaceholder?: string;
-
   onPressFilter?: () => void;
 
-  // optional second row (payment, categories, etc)
-  chips?: ToolbarChip[];
-  chipValue?: string;
-  onChangeChip?: (k: string) => void;
+  chips?: ToolbarChip<C>[];
+  chipValue?: C;
+  onChangeChip?: (k: C) => void;
 
-  // optional “active filter remove” chip (with cross)
   activeFilterLabel?: string;
   onClearActiveFilter?: () => void;
 };
 
-function RecordsToolbarBase({
+function RecordsToolbarBase<P extends string, C extends string>({
   presets,
   presetValue,
   onChangePreset,
+
   query,
   onChangeQuery,
   searchPlaceholder = "Search...",
   onPressFilter,
+
   chips,
   chipValue,
   onChangeChip,
+
   activeFilterLabel,
   onClearActiveFilter,
-}: Props) {
+}: RecordsToolbarProps<P, C>) {
   const { colors } = useAppTheme();
 
   return (
@@ -81,13 +84,14 @@ function RecordsToolbarBase({
               opacity: pressed ? 0.85 : 1,
             },
           ]}
+          accessibilityRole="button"
+          accessibilityLabel="Filters"
         >
           <Ionicons name="options-outline" size={18} color={colors.muted} />
         </Pressable>
       </View>
 
-      {/* optional quick chips */}
-      {chips?.length ? (
+      {!!chips?.length && (
         <View style={styles.row2}>
           {chips.map((c) => (
             <AppChip
@@ -99,33 +103,26 @@ function RecordsToolbarBase({
             />
           ))}
         </View>
-      ) : null}
+      )}
 
-      {/* optional active filter chip with X */}
-      {activeFilterLabel ? (
+      {!!activeFilterLabel && (
         <View style={{ marginTop: space.sm }}>
           <AppChip
             label={activeFilterLabel}
             size="sm"
-            variant="solid"
+            variant="filled"
             rightIcon="close"
             onRemove={onClearActiveFilter}
           />
         </View>
-      ) : null}
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    paddingBottom: space.sm,
-  },
-  row: {
-    flexDirection: "row",
-    gap: space.sm,
-    flexWrap: "wrap",
-  },
+  wrap: { paddingBottom: space.sm },
+  row: { flexDirection: "row", gap: space.sm, flexWrap: "wrap" },
   searchRow: {
     marginTop: space.md,
     flexDirection: "row",
@@ -148,4 +145,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RecordsToolbar = memo(RecordsToolbarBase);
+/**
+ * We export with an explicit generic call signature.
+ */
+type RecordsToolbarComponent = <P extends string, C extends string>(
+  props: RecordsToolbarProps<P, C>
+) => React.ReactElement;
+
+export const RecordsToolbar = memo(
+  RecordsToolbarBase
+) as unknown as RecordsToolbarComponent;

@@ -1,25 +1,32 @@
-import { AppHeader, AppScreen } from "@/components";
+import {
+  AppHeader,
+  AppScreen,
+  RecordsToolbar,
+  type ToolbarChip,
+} from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { space } from "@/design/tokens";
-import React, { useCallback, useMemo, useState } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import {
   SaleRow,
-  SaleRowItem,
-  SalesPreset,
-  SalesPresetRow,
-  SalesSearchRow,
+  type SaleRowItem,
+  SalesFilterSheet,
+  type SalesPreset,
 } from "../components";
 import { SalesFilterChipsRow } from "../components/SalesFilterChipsRow";
 
-const SALES_PRESETS = [
+const SALES_PRESETS: ToolbarChip<SalesPreset>[] = [
   { key: "today", label: "Today" },
   { key: "yesterday", label: "Yesterday" },
   { key: "week", label: "This Week" },
   { key: "month", label: "This Month" },
 ];
 
-const PAYMENT_CHIPS = [
+type Payment = "All" | "Cash" | "Online" | "Udhar";
+
+const PAYMENT_CHIPS: ToolbarChip<Payment>[] = [
   { key: "All", label: "All" },
   { key: "Cash", label: "Cash" },
   { key: "Online", label: "Online" },
@@ -29,10 +36,17 @@ const PAYMENT_CHIPS = [
 export function SalesScreen() {
   const { colors } = useAppTheme();
 
+  const sheetRef = useRef<BottomSheetModal | null>(null);
+
+  const openFilters = useCallback(() => {
+    sheetRef.current?.present();
+  }, []);
+
   const [preset, setPreset] = useState<SalesPreset>("today");
   const [query, setQuery] = useState("");
-  const [filters, setFilters] = useState({
-    payment: "All" as "All" | "Cash" | "Online" | "Udhar",
+
+  const [filters, setFilters] = useState<{ payment: Payment }>({
+    payment: "All",
   });
 
   const data = useMemo<SaleRowItem[]>(
@@ -96,42 +110,28 @@ export function SalesScreen() {
     });
   }, [data, filters.payment, query]);
 
-  const onPressFilterChip = useCallback(
-    (key: "All" | "Cash" | "Online" | "Udhar") => {
-      setFilters((p) => ({ ...p, payment: key }));
-    },
-    []
-  );
+  const onPressFilterChip = useCallback((key: Payment) => {
+    setFilters((p) => ({ ...p, payment: key }));
+  }, []);
 
   return (
     <AppScreen
       padded
       scroll={false}
-      backgroundVariant="background"
       paddingHorizontal={space.lg}
       header={<AppHeader title="Sales Records" showBack />}
       contentStyle={{ paddingTop: space.md }}
     >
-      {/* <RecordsToolbar
-    presets={SALES_PRESETS}
-    presetValue={preset}
-    onChangePreset={setPreset}
-    query={query}
-    onChangeQuery={setQuery}
-    onPressFilter={() => salesSheetRef.current?.present()}
-    chips={PAYMENT_CHIPS}
-    chipValue={payment}
-    onChangeChip={setPayment}
-  /> */}
-      <SalesPresetRow value={preset} onChange={setPreset} />
-
-      <SalesSearchRow
-        value={query}
-        onChangeText={setQuery}
-        onPressFilter={() => {
-          // later: open SalesFilterSheet
-          console.log("open filter sheet");
-        }}
+      <RecordsToolbar<SalesPreset, Payment>
+        presets={SALES_PRESETS}
+        presetValue={preset}
+        onChangePreset={setPreset}
+        query={query}
+        onChangeQuery={setQuery}
+        onPressFilter={openFilters}
+        chips={PAYMENT_CHIPS}
+        chipValue={filters.payment}
+        onChangeChip={(k) => setFilters((p) => ({ ...p, payment: k }))}
       />
 
       <SalesFilterChipsRow
@@ -148,12 +148,15 @@ export function SalesScreen() {
         showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}
       />
+
+      <SalesFilterSheet
+        sheetRef={sheetRef}
+        onApply={(f) => console.log("Apply sales filters:", f)}
+      />
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  listContent: {
-    paddingTop: space.md,
-  },
+  listContent: { paddingTop: space.md },
 });

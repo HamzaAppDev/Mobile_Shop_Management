@@ -14,7 +14,6 @@ export type AppChipProps = {
   active?: boolean;
   disabled?: boolean;
 
-  // ✅ new
   variant?: AppChipVariant;
 
   rightIcon?: AppIconName;
