@@ -15,7 +15,6 @@ import {
   SalesFilterSheet,
   type SalesPreset,
 } from "../components";
-import { SalesFilterChipsRow } from "../components/SalesFilterChipsRow";
 
 const SALES_PRESETS: ToolbarChip<SalesPreset>[] = [
   { key: "today", label: "Today" },
@@ -132,11 +131,6 @@ export function SalesScreen() {
         chips={PAYMENT_CHIPS}
         chipValue={filters.payment}
         onChangeChip={(k) => setFilters((p) => ({ ...p, payment: k }))}
-      />
-
-      <SalesFilterChipsRow
-        value={filters.payment}
-        onChange={onPressFilterChip}
       />
 
       <FlatList

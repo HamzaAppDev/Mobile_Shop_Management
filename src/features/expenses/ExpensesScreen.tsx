@@ -7,13 +7,13 @@ import {
 } from "@/components";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { View } from "react-native";
 import { ExpenseFiltersChip } from "./components";
 import { ExpenseHeaderCard } from "./components/ExpenseHeaderCard";
 import {
   ExpenseTransactionList,
   type ExpenseTx,
 } from "./components/ExpenseTransactionList";
+import { ExpenseFilterSheet } from "./components/expenseFilterSheet";
 
 type Filter = "month" | "today" | "yesterday";
 
@@ -37,8 +37,7 @@ export function ExpensesScreen() {
   const [query, setQuery] = useState<string>("");
   const [category, setCategory] = useState<string>("all");
 
-  // Bottom sheet ref (optional for now)
-  const expenseSheetRef = useRef<BottomSheetModal>(null);
+  const expenseSheetRef = useRef<BottomSheetModal | null>(null);
 
   const activeCategoryLabel = useMemo(() => {
     if (category === "all") return null;
@@ -121,9 +120,16 @@ export function ExpensesScreen() {
       <ExpenseFiltersChip value={filter} onChange={setFilter} />
 
       <ExpenseTransactionList data={data} />
-      <BottomSheetModal ref={expenseSheetRef} snapPoints={["85%"]} index={0}>
-        <View style={{ height: 400 }} />
-      </BottomSheetModal>
+      <ExpenseFilterSheet
+        sheetRef={expenseSheetRef}
+        onApply={(filters) => {
+          console.log("APPLY:", filters);
+          // later: set local state, update list, etc.
+        }}
+        onClear={() => {
+          console.log("CLEAR");
+        }}
+      />
     </AppScreen>
   );
 }
