@@ -27,26 +27,25 @@ function SaleRowBase({ item }: Props) {
   const status = useMemo(() => {
     if (item.statusLabel === "Paid") {
       return {
-        bg: "rgba(34,197,94,0.12)",
+        bg: colors.successMuted,
         color: colors.success,
         label: "Paid",
       };
     }
     return {
-      bg: "rgba(239,68,68,0.10)",
+      bg: colors.dangerMuted,
       color: colors.danger,
       label: "Pending",
     };
-  }, [colors.danger, colors.success, item.statusLabel]);
+  }, [colors.danger, colors.dangerMuted, colors.success, colors.successMuted, item.statusLabel]);
 
   const paymentChip = useMemo(() => {
-    // subtle chips like screenshot
     if (item.payment === "Cash")
-      return { bg: "rgba(34,197,94,0.12)", color: colors.success };
+      return { bg: colors.successMuted, color: colors.success };
     if (item.payment === "Online")
-      return { bg: "rgba(59,130,246,0.12)", color: colors.primary };
-    return { bg: "rgba(245,158,11,0.12)", color: "#F59E0B" };
-  }, [colors.primary, colors.success, item.payment]);
+      return { bg: colors.primaryMuted, color: colors.primary };
+    return { bg: colors.warningMuted, color: colors.warning };
+  }, [colors.primary, colors.primaryMuted, colors.success, colors.successMuted, colors.warning, colors.warningMuted, item.payment]);
 
   return (
     <View

@@ -113,6 +113,16 @@ export function SalesScreen() {
     setFilters((p) => ({ ...p, payment: key }));
   }, []);
 
+  const renderSaleRow = useCallback(
+    ({ item }: { item: SaleRowItem }) => <SaleRow item={item} />,
+    []
+  );
+
+  const ListSeparator = useMemo(
+    () => () => <View style={{ height: space.sm }} />,
+    []
+  );
+
   return (
     <AppScreen
       padded
@@ -136,8 +146,8 @@ export function SalesScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(i) => i.id}
-        renderItem={({ item }) => <SaleRow item={item} />}
-        ItemSeparatorComponent={() => <View style={{ height: space.sm }} />}
+        renderItem={renderSaleRow}
+        ItemSeparatorComponent={ListSeparator}
         contentContainerStyle={[styles.listContent, { paddingBottom: 120 }]}
         showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}

@@ -1,6 +1,7 @@
+import type { AppIconName } from "@/components";
 import { AppText } from "@/components";
 import { space } from "@/design/tokens";
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { ExpenseRow } from "./ExpenseRow";
 
@@ -9,7 +10,7 @@ export type ExpenseTx = {
   title: string;
   subtitle: string;
   amount: number;
-  icon: any;
+  icon: AppIconName;
   colorKey: "success" | "warning" | "danger" | "info";
 };
 
@@ -18,6 +19,11 @@ type Props = { data: ExpenseTx[] };
 function ExpenseTransactionListBase({ data }: Props) {
   const renderItem = useCallback(
     ({ item }: { item: ExpenseTx }) => <ExpenseRow item={item} />,
+    []
+  );
+
+  const ListSeparator = useMemo(
+    () => () => <View style={{ height: space.md }} />,
     []
   );
 
@@ -35,7 +41,7 @@ function ExpenseTransactionListBase({ data }: Props) {
         keyExtractor={(i) => i.id}
         renderItem={renderItem}
         scrollEnabled={false}
-        ItemSeparatorComponent={() => <View style={{ height: space.md }} />}
+        ItemSeparatorComponent={ListSeparator}
         contentContainerStyle={{ paddingBottom: space.lg }}
       />
     </View>

@@ -2,7 +2,8 @@ import { AppIcon, AppText, type AppIconName } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
 import { Routes } from "@/navigation/routes";
-import { AppStackParamList } from "@/navigation/types";
+import type { AppStackParamList } from "@/navigation/types";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import React, { memo, useMemo } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
@@ -20,7 +21,7 @@ type Props = {
 };
 
 function QuickActionsGridBase({ onPressAction }: Props) {
-  const nav = useNavigation<any>();
+  const nav = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const { colors } = useAppTheme();
 
   const actions = useMemo<Action[]>(
@@ -31,7 +32,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "cart-outline",
           color: colors.primary,
-          bg: "rgba(47,128,237,0.12)",
+          bg: colors.primaryMuted,
         },
         route: Routes.App.SalesList,
       },
@@ -41,7 +42,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "cart-arrow-down",
           color: colors.danger,
-          bg: "rgba(239,68,68,0.10)",
+          bg: colors.dangerMuted,
         },
         route: Routes.App.ExpensesList,
       },
@@ -51,7 +52,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "package-variant",
           color: colors.text,
-          bg: "rgba(17,24,39,0.06)",
+          bg: colors.surfaceMuted,
         },
       },
       {
@@ -59,8 +60,8 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         title: "Udhar / Credit",
         icon: {
           name: "note-text-outline",
-          color: "#F59E0B",
-          bg: "rgba(245,158,11,0.10)",
+          color: colors.warning,
+          bg: colors.warningMuted,
         },
       },
       {
@@ -69,7 +70,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "store-outline",
           color: colors.text,
-          bg: "rgba(17,24,39,0.06)",
+          bg: colors.surfaceMuted,
         },
       },
       {
@@ -78,7 +79,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "account-group-outline",
           color: colors.text,
-          bg: "rgba(17,24,39,0.06)",
+          bg: colors.surfaceMuted,
         },
       },
       {
@@ -87,7 +88,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "chart-bar",
           color: colors.primary,
-          bg: "rgba(47,128,237,0.12)",
+          bg: colors.primaryMuted,
         },
       },
       {
@@ -96,7 +97,7 @@ function QuickActionsGridBase({ onPressAction }: Props) {
         icon: {
           name: "bell-outline",
           color: colors.text,
-          bg: "rgba(17,24,39,0.06)",
+          bg: colors.surfaceMuted,
         },
       },
     ],

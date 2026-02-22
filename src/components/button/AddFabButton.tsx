@@ -31,7 +31,7 @@ function AddFabButtonBase({ onPress, title }: Props) {
 const styles = StyleSheet.create({
   wrap: {
     position: "absolute",
-    right: 14,
+    right: space.md,
     bottom: 0,
     alignItems: "center",
   },

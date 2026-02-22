@@ -76,7 +76,7 @@ function SalesItemPickerBase({
         style={({ pressed }) => [
           styles.row,
           {
-            backgroundColor: active ? "rgba(47,128,237,0.08)" : "transparent",
+            backgroundColor: active ? colors.primaryMuted : "transparent",
             borderColor: active ? colors.primary : "transparent",
           },
           pressed && { opacity: 0.92 },
@@ -88,7 +88,7 @@ function SalesItemPickerBase({
               styles.iconBox,
               {
                 backgroundColor: active
-                  ? "rgba(47,128,237,0.15)"
+                  ? colors.primaryMuted
                   : colors.background,
               },
             ]}

@@ -6,12 +6,13 @@ import { navigationRef } from "./src/navigation/rootNavigation";
 
 import { AppLifecycle } from "@/app";
 import { useBootstrap } from "@/app/bootstrap/useBootstrap";
+import { SessionProvider } from "@/app/session";
 import React from "react";
 import { AppThemeProvider } from "./src/design/theme/AppThemeProvider";
 import { RootNavigator } from "./src/navigation/RootNavigator";
 
 function AppBoot() {
-  useBootstrap(); // ✅ this flips authStatus from "loading" to signedOut/signedIn
+  useBootstrap(); // Flips authStatus from "loading" to signedOut/signedIn
   return (
     <>
       <RootNavigator />
@@ -25,11 +26,13 @@ export default function App() {
     <AppErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AppThemeProvider>
+          <SessionProvider>
           <BottomSheetModalProvider>
             <NavigationContainer ref={navigationRef}>
               <AppBoot />
             </NavigationContainer>
           </BottomSheetModalProvider>
+          </SessionProvider>
         </AppThemeProvider>
       </GestureHandlerRootView>
     </AppErrorBoundary>

@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/app/store/sessionStore";
+import { useSession } from "@/app/session";
 import { AppScreen, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
 import { space } from "@/design/tokens";
@@ -15,10 +15,10 @@ export function LoginScreen() {
   const { colors } = useAppTheme();
   const nav = useAuthNavigation();
 
-  const signIn = useSessionStore((s) => s.signIn);
+  const { signIn } = useSession();
   const onLogin = useCallback(() => {
     signIn();
-  }, [nav]);
+  }, [signIn]);
 
   const onCreateAccount = useCallback(() => {
     nav.navigate(Routes.Auth.Signup);

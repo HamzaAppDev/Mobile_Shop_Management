@@ -27,6 +27,15 @@ export const semantic = {
     danger: "#DC2626",
     info: "#2563EB",
 
+    // Muted backgrounds (for chips, selected states)
+    primaryMuted: "rgba(47,128,237,0.12)",
+    dangerMuted: "rgba(239,68,68,0.10)",
+    successMuted: "rgba(34,197,94,0.12)",
+    warningMuted: "rgba(245,158,11,0.12)",
+    infoMuted: "rgba(37,99,235,0.12)",
+    surfaceMuted: "rgba(17,24,39,0.06)",
+    inputBg: "#F2F4F8",
+
     // Overlay (for modals)
     overlay: "rgba(0,0,0,0.45)",
     transparent: "rgba(0,0,0,0)",
@@ -55,6 +64,15 @@ export const semantic = {
     warning: "#FBBF24",
     danger: "#EF4444",
     info: "#60A5FA",
+
+    // Muted backgrounds (for chips, selected states)
+    primaryMuted: "rgba(47,128,237,0.15)",
+    dangerMuted: "rgba(239,68,68,0.12)",
+    successMuted: "rgba(34,197,94,0.15)",
+    warningMuted: "rgba(251,191,36,0.15)",
+    infoMuted: "rgba(96,165,250,0.15)",
+    surfaceMuted: "rgba(255,255,255,0.06)",
+    inputBg: "rgba(255,255,255,0.06)",
 
     overlay: "rgba(0,0,0,0.65)",
     transparent: "rgba(0,0,0,0)",

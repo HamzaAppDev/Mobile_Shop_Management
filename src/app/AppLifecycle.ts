@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { AppState } from "react-native";
-import { useSessionStore } from "./store/sessionStore";
+import { useSession } from "./session";
 
 export function AppLifecycle() {
-  const setLocked = useSessionStore((s) => s.setLocked);
+  const { setLocked } = useSession();
 
   useEffect(() => {
     const sub = AppState.addEventListener("change", (state) => {

@@ -1,9 +1,13 @@
+import { Ionicons } from "@expo/vector-icons";
+
 export type CategoryTint = "primary" | "info" | "warning" | "danger" | "muted";
+
+export type IoniconsName = keyof typeof Ionicons.glyphMap;
 
 export type ExpenseCategory = {
   key: string;
   label: string;
-  icon: string; // Ionicons name
+  icon: IoniconsName;
   tint: CategoryTint;
 };
 

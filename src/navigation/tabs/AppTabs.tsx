@@ -1,5 +1,6 @@
 import { AppIcon } from "@/components";
 import { useAppTheme } from "@/design/theme";
+import { space } from "@/design/tokens";
 import { HomeScreen, ProfileScreen } from "@/features";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
@@ -21,7 +22,7 @@ export function AppTabs() {
           borderTopColor: colors.border,
           backgroundColor: colors.surface,
           height: 64,
-          paddingBottom: 8,
+          paddingBottom: space.sm,
         },
         tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}

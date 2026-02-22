@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/app/store/sessionStore";
+import { useSession } from "@/app/session";
 import { AppButton, AppScreen, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
@@ -25,10 +25,7 @@ export function SetPinScreen() {
   const activePin = step === "set" ? draft : confirm;
   const isComplete = activePin.length === PIN_LENGTH;
 
-  const setBiometricEnabled = useSessionStore((s) => s.setBiometricEnabled);
-
-  const setPinEnabled = useSessionStore((s) => s.setPinEnabled);
-  const unlock = useSessionStore((s) => s.unlock);
+  const { setBiometricEnabled, setPinEnabled, unlock } = useSession();
 
   const indicators = useMemo(
     () =>

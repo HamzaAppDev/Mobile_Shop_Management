@@ -2,6 +2,7 @@ import { AppInput, AppScreen } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +13,7 @@ import {
   CategoryGrid,
   SaveExpenseActions,
 } from "./components";
+import type { AppStackParamList } from "@/navigation/types";
 import { addExpenseSchema, type AddExpenseForm } from "./schema";
 
 export function AddExpenseScreen() {

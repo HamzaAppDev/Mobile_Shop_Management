@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/app/store/sessionStore";
+import { useSession } from "@/app/session";
 import { AppHeader, AppScreen, AppText } from "@/components";
 import { space } from "@/design/tokens";
 import { useAuthNavigation } from "@/navigation/auth";
@@ -9,8 +9,8 @@ import { SignupFormCard, type SignupForm } from "./components/SignupFormCard";
 export function SignupScreen() {
   const nav = useAuthNavigation();
 
-  // design-only: after signup we mark signed in
-  const signIn = useSessionStore((s) => s.signIn);
+  // Design-only: after signup we mark signed in
+  const { signIn } = useSession();
 
   const onCreate = useCallback(
     (_values: SignupForm) => {

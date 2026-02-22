@@ -1,4 +1,4 @@
-import { useSessionStore } from "@/app/store/sessionStore";
+import { useSession } from "@/app/session";
 import { AppScreen } from "@/components";
 import { space } from "@/design/tokens";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -12,7 +12,7 @@ const PIN_LENGTH = 4;
 export function LoginPinScreen() {
   const [pin, setPin] = useState<string[]>([]);
   const fingerprintEnabled = true; // TODO: read from secure settings
-  const unlock = useSessionStore((s) => s.unlock);
+  const { unlock } = useSession();
 
   // For design testing:
   useEffect(() => {

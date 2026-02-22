@@ -13,7 +13,7 @@ import {
   ExpenseTransactionList,
   type ExpenseTx,
 } from "./components/ExpenseTransactionList";
-import { ExpenseFilterSheet } from "./components/expenseFilterSheet";
+import { ExpenseFilterSheet } from "./components";
 
 type Filter = "month" | "today" | "yesterday";
 

@@ -1,6 +1,7 @@
 import { AppButton, AppDivider, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { space } from "@/design/tokens";
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -48,7 +49,7 @@ function SalesFilterSheetBase({
   }, [close, draft, onApply]);
 
   const Backdrop = useCallback(
-    (p: any) => (
+    (p: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop
         {...p}
         appearsOnIndex={0}

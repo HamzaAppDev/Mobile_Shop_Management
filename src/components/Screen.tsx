@@ -47,7 +47,7 @@ type Props = {
 function AppScreenBase({
   children,
   padded = true,
-  paddingHorizontal = 16,
+  paddingHorizontal = space.lg,
   paddingVertical = 0,
   scroll = false,
   scrollProps,

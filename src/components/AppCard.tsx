@@ -1,5 +1,5 @@
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import { radius } from "@/design/tokens/radius";
+import { radius, space } from "@/design/tokens";
 import React, { memo } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
@@ -22,8 +22,8 @@ const ACCENT_COLOR_KEY: Record<CardAccent, "primary" | "success" | "warning" | "
 
 function AppCardBase({
   accent = "none",
-  accentWidth = 4,
-  padding = 16,
+  accentWidth = space.xs,
+  padding = space.lg,
   style,
   children,
   ...rest
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 8 },
+    shadowColor: "rgba(0,0,0,0.25)",
+    shadowRadius: space.md,
+    shadowOffset: { width: 0, height: space.sm },
     elevation: 3,
     flexDirection: "row",
   },

@@ -1,6 +1,7 @@
 import { AppButton, AppDivider, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme";
 import { radius, space } from "@/design/tokens";
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -74,7 +75,7 @@ function ExpenseFilterSheetBase({
   );
 
   const Backdrop = useCallback(
-    (p: any) => (
+    (p: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop
         {...p}
         appearsOnIndex={0}
@@ -176,8 +177,7 @@ function ExpenseFilterSheetBase({
             style={[
               styles.searchWrap,
               {
-                backgroundColor:
-                  mode === "dark" ? "rgba(255,255,255,0.06)" : "#F2F4F8",
+                backgroundColor: colors.inputBg,
                 borderColor: colors.border,
               },
             ]}

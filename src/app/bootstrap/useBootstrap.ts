@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useSessionStore } from "../store/sessionStore";
+import { useSession } from "../session";
 
 export function useBootstrap() {
-  const bootstrapDone = useSessionStore((s) => s.bootstrapDone);
+  const { bootstrapDone } = useSession();
 
   useEffect(() => {
     // DESIGN MODE DEFAULTS (for now)

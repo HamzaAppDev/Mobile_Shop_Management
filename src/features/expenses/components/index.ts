@@ -5,3 +5,4 @@ export * from "./ExpenseTransactionList";
 export * from "./FilterChip";
 
 export * from "./ExpenseFiltersRow";
+export * from "./expenseFilterSheet";

@@ -31,7 +31,7 @@ function CategoryTileBase({ item, selected, onPress }: Props) {
   }, [colors, item.tint]);
 
   const borderColor = selected ? colors.primary : colors.border;
-  const bubbleBg = selected ? "rgba(47,128,237,0.12)" : colors.divider;
+  const bubbleBg = selected ? colors.primaryMuted : colors.divider;
   const iconColor = selected ? colors.primary : tintColor;
 
   return (
@@ -47,7 +47,7 @@ function CategoryTileBase({ item, selected, onPress }: Props) {
       ]}
     >
       <View style={[styles.bubble, { backgroundColor: bubbleBg }]}>
-        <Ionicons name={item.icon as any} size={20} color={iconColor} />
+        <Ionicons name={item.icon} size={20} color={iconColor} />
       </View>
 
       <AppText style={[styles.text, { color: colors.text }]}>

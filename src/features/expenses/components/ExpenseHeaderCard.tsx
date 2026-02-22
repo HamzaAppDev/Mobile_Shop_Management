@@ -23,7 +23,7 @@ function ExpenseHeaderCardBase({ total }: Props) {
 
       <View style={styles.pillRow}>
         <View
-          style={[styles.pill, { backgroundColor: "rgba(47,128,237,0.10)" }]}
+          style={[styles.pill, { backgroundColor: colors.primaryMuted }]}
         >
           <AppText style={[styles.pillText, { color: colors.primary }]}>
             This Month

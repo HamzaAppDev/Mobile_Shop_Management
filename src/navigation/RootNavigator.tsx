@@ -1,12 +1,10 @@
-import { useSessionStore } from "@/app/store/sessionStore";
+import { useSession } from "@/app/session";
 import React from "react";
 import { AppNavigator } from "./app/AppNavigator";
 import { AuthNavigator, QuickUnlockNavigator } from "./auth";
 
 export function RootNavigator() {
-  const authStatus = useSessionStore((s) => s.authStatus);
-  const locked = useSessionStore((s) => s.locked);
-  const quickUnlockEnabled = useSessionStore((s) => s.quickUnlockEnabled);
+  const { authStatus, locked, quickUnlockEnabled } = useSession();
 
   if (authStatus === "loading") return null;
 

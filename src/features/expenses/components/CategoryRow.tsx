@@ -23,7 +23,7 @@ function CategoryRowBase({
 }: Props) {
   const { colors } = useAppTheme();
 
-  const bg = selected ? "rgba(47,128,237,0.10)" : colors.surface;
+  const bg = selected ? colors.primaryMuted : colors.surface;
   const border = selected ? colors.primary : colors.border;
 
   return (
@@ -45,7 +45,7 @@ function CategoryRowBase({
         <View
           style={[
             styles.iconBg,
-            { backgroundColor: iconBg ?? "rgba(17,24,39,0.06)" },
+            { backgroundColor: iconBg ?? colors.surfaceMuted },
           ]}
         >
           <AppIcon name={iconName} size={18} color={colors.text} />

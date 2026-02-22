@@ -1,6 +1,7 @@
 import { AppButton, AppDivider, AppText } from "@/components";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import { radius } from "@/design/tokens/radius";
+import { radius, space } from "@/design/tokens";
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -445,9 +446,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
             styles.row,
             {
               backgroundColor: selected
-                ? mode === "dark"
-                  ? "rgba(47,128,237,0.18)"
-                  : "rgba(47,128,237,0.10)"
+                ? colors.primaryMuted
                 : "transparent",
               opacity: pressed ? 0.85 : 1,
             },
@@ -469,7 +468,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
               style={{
                 color: colors.primary,
                 fontWeight: "800",
-                marginLeft: 10,
+                marginLeft: space.sm,
               }}
             >
               ✓
@@ -480,17 +479,17 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
     },
     [
       colors.primary,
+      colors.primaryMuted,
       colors.text,
       getLabel,
       handleSelect,
       isSelected,
-      mode,
       renderItem,
     ]
   );
 
   const Backdrop = useCallback(
-    (p: any) => (
+    (p: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop
         {...p}
         appearsOnIndex={0}
@@ -590,8 +589,7 @@ function AppSelectFieldBase<T>(props: AppSelectFieldProps<T>) {
                 style={[
                   styles.searchInput,
                   {
-                    backgroundColor:
-                      mode === "dark" ? "rgba(255,255,255,0.06)" : "#F2F4F8",
+                    backgroundColor: colors.inputBg,
                     borderColor: colors.border,
                     color: colors.text,
                   },

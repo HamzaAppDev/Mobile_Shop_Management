@@ -26,14 +26,14 @@ function CategoryRowBase({
         styles.row,
         {
           borderColor: selected ? colors.primary : colors.border,
-          backgroundColor: selected ? "rgba(47,128,237,0.10)" : colors.surface,
+          backgroundColor: selected ? colors.primaryMuted : colors.surface,
           opacity: pressed ? 0.9 : 1,
         },
       ]}
     >
       <View style={styles.left}>
         <View
-          style={[styles.iconBox, { backgroundColor: "rgba(17,24,39,0.06)" }]}
+          style={[styles.iconBox, { backgroundColor: colors.surfaceMuted }]}
         >
           {iconName ? (
             <AppIcon name={iconName} size={18} color={colors.text} />

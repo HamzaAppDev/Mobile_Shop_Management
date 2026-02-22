@@ -1,6 +1,6 @@
 import { AppText } from "@/components/AppText";
 import { useAppTheme } from "@/design/theme/AppThemeProvider";
-import { radius } from "@/design/tokens/radius";
+import { radius, space } from "@/design/tokens";
 import React, { memo } from "react";
 import {
   StyleSheet,
@@ -54,7 +54,7 @@ function AppInputBase({
           {...rest}
           editable={isEditable}
           placeholderTextColor={colors.placeholder}
-          style={[styles.input, { color: colors.text }, style as any]}
+          style={[styles.input, { color: colors.text }, style]}
         />
         {rightIcon ? <View style={styles.iconWrap}>{rightIcon}</View> : null}
       </View>
@@ -76,26 +76,26 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   label: {
-    marginBottom: 6,
+    marginBottom: space.xs,
   },
   inputRow: {
     minHeight: 52,
     borderRadius: radius.md,
     borderWidth: 1,
-    paddingHorizontal: 14,
+    paddingHorizontal: space.md,
     flexDirection: "row",
     alignItems: "center",
   },
   input: {
     flex: 1,
     fontSize: 16,
-    paddingVertical: 12,
+    paddingVertical: space.md,
   },
   iconWrap: {
-    marginLeft: 10,
+    marginLeft: space.sm,
   },
   error: {
-    marginTop: 6,
+    marginTop: space.xs,
   },
 });
 
